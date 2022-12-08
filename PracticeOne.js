@@ -144,6 +144,82 @@ class BST {
         }
     }
 
+    // height(){
+    //     return this.treeheight(this.root);
+    // }
+    // treeheight(node){
+    //     if (node === null){
+    //         return 0;
+    //     }
+    //     else if ( node.right === null && node.left === null ){
+    //         return 1;
+    //     }
+    //     else {
+    //         const right = this.treeheight(node.right);
+    //         const left = this.treeheight(node.left);
+    //         if (right == left ){
+    //             return left + 1 ;
+    //         }
+    //         else if (right > left) {
+    //             return right + 1;
+    //         }
+    //         else { 
+    //             return left + 1;
+    //         }
+    //     }
+    // }
+
+    // height v2
+    height(){
+        if ( this.root != null) {
+            return this.heightOfTree(this.root, 1);
+        }
+        else {
+            return 0;
+        }
+    }
+    heightOfTree(node, depth){
+        if ( node.left === null && node.right === null ) {
+            return depth;
+        }
+        else if ( node.left === null ){
+            const nextDepth = depth + 1;
+            const right = this.heightOfTree(node.right, nextDepth);
+            return right;
+        }
+        else if ( node.right === null ){
+            const nextDepth = depth + 1;
+            const left = this.heightOfTree(node.left, nextDepth);
+            return left;
+        }
+        else {
+            const nextDepth = depth + 1;
+            const right = this.heightOfTree(node.right, nextDepth);
+            const left = this.heightOfTree(node.left, nextDepth);
+            if ( right === left ){
+                return left;
+            }
+            else if ( right > left ) {
+                return right;
+            }
+            else {
+                return left;
+            }
+        }
+    }
+    // height(){
+    //     return this.root !== null ? this.heightOfTree(this.root, 1) : 0;
+    // }
+    // heightOfTree(node, depth){
+    //     if (node.left === null && node.right === null) {
+    //         return depth;
+    //     } else {
+    //         const right = node.right ? this.heightOfTree(node.right, depth + 1) : 0;
+    //         const left = node.left ? this.heightOfTree(node.left, depth + 1) : 0;
+    //         return right > left ? right : left;
+    //     }
+    // }
+
     printInOrder(){
         this.inOrder(this.root);
     }
@@ -192,6 +268,47 @@ class BST {
         console.log(node.val);
     }
 
+    isBalanced(){
+        if ( this.root != null) {
+            let values = this.branchHeights(this.root, 1,1);
+            if (values[0] === values[1]){
+                return true;
+            }
+            else if ( values[0] + 1 === values [1]) {
+                return true;
+            }
+            else if ( values[0] - 1 === values [1]) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return 0;
+        }
+    }
+    branchHeights(node, rDepth, lDepth){
+        const nextRDepth = rDepth + 1;
+        const nextLDepth = lDepth + 1;
+        if ( node.left === null && node.right === null ) {
+            return [rDepth, lDepth];
+        }
+        else if ( node.left === null ){
+            const right = this.branchHeights(node.right, nextRDepth, lDepth);
+            return [right[0], lDepth];
+        }
+        else if ( node.right === null ){
+            const left = this.branchHeights(node.left, rDepth, nextLDepth);
+            return [rDepth, left[1]];
+        }
+        else {
+            const right = this.branchHeights(node.right, nextRDepth, nextLDepth);
+            const left = this.branchHeights(node.left,nextRDepth, nextLDepth);
+            return [ right[0], left[1]];
+        }
+    }
+
 }
 
 // BST.prototype.toString= ()=>{return "hello";};
@@ -223,7 +340,11 @@ treeOne.add(15);
 
 // console.log("PreOrder");
 // treeOne.printPreOrder();
-console.log("sum", treeOne.sumAll());
+// console.log("sum", treeOne.sumAll());
+
+// console.log("height", treeOne.height());
+console.log("isBalanced", treeOne.isBalanced());
+
 
 // BST: Add
 // Create an add(val) method on the BST object to add new value to the tree. This entails creating a BTNode with this value and connecting it at the appropriate place in the tree. Unless specified otherwise, BSTs can contain duplicate values.
@@ -242,3 +363,19 @@ console.log("sum", treeOne.sumAll());
 
 // BST: Is Empty
 // Create an isEmpty() method to return whether the BST is empty (whether it contains no values).
+
+// Tree Two
+// BST: Height
+// Build a height() method on the BST object that returns the total height of the tree – the longest sequence of nodes
+// from the root node to leaf node.
+
+// BST: Is Balanced
+// Write isbalanced() method to indicate whether a BST is balanced. For this challenge, consider a tree balanced when all 
+// nodes are balanced. A BTNode is balanced if heights of its left subtree and right subtree differ by at most one.
+
+// Array to BST
+// Given an array that is sorted in ascending order, return a BST object that is height-balanced.
+
+// Closest Common Ancestor
+// Given a BST and two contained values, return the value of the closest common ancestor node. For each node, the chain up 
+// to root (including self) represents that node’s ancestry. Return the value of the node in both ancestor chains that is closest to both.
