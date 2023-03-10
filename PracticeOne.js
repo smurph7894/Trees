@@ -313,7 +313,13 @@ class BST {
 
 // BST.prototype.toString= ()=>{return "hello";};
 
-treeOne = new BST();
+let treeOne = new BST();
+treeTwo = treeOne;
+treeThree = treeTwo;
+
+// treeOne = null;
+// treeThree = null;
+// treeTwo = null;
 
 treeOne.add(5);
 treeOne.add(1);
@@ -324,6 +330,8 @@ treeOne.add(9);
 treeOne.add(11);
 treeOne.add(13);
 treeOne.add(15);
+
+treeOne.printInOrder();
 
 // console.log(treeOne.contains(9));
 // console.log(treeOne.contains(20));
@@ -343,7 +351,7 @@ treeOne.add(15);
 // console.log("sum", treeOne.sumAll());
 
 // console.log("height", treeOne.height());
-console.log("isBalanced", treeOne.isBalanced());
+// console.log("isBalanced", treeOne.isBalanced());
 
 
 // BST: Add
